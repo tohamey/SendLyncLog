@@ -17,6 +17,7 @@ namespace SLL
     {
         //constracting the location of the zip file to be zipped
         static string path1 = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        //below is path for logs files used by Office 16.0 (SkypeFB) change the 16.0 to 15.0 for (lync)
         static string path2 = @"AppData\Local\Microsoft\Office\16.0\Lync\Tracing\";
         static string _logLocation = Path.Combine(path1, path2);
         //location where i want to save the zipped file
