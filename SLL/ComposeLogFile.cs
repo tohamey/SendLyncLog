@@ -15,7 +15,7 @@ namespace SLL
 {
     class ComposeLogFile
     {
-        //constracting the location of the zip file to be zipped
+        //constracting the location of the log file to be zipped
         static string path1 = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         //below is path for logs files used by Office 16.0 (SkypeFB) change the 16.0 to 15.0 for (lync)
         static string path2 = @"AppData\Local\Microsoft\Office\16.0\Lync\Tracing\";
@@ -25,6 +25,7 @@ namespace SLL
         string _zippedLogs = @"c:\tempSkype4b\Skype4b_logs.zip";
         string _lyncLogCopy = @"c:\tempSkype4b\logs\lynclogfile.uccapilog";
         string[] _getLogFiles = Directory.GetFiles(_logLocation, "*.uccapilog");
+        //Attachment for the Email to be sent later on
         string attachment = @"c:\tempSkype4b\Skype4b_logs.zip";
 
         //method to create the file and send it
