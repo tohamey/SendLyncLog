@@ -28,30 +28,36 @@ namespace SLL
         //Attachment for the Email to be sent later on
         string attachment = @"c:\tempSkype4b\Skype4b_logs.zip";
 
-        //method to create the file and send it
+        /*
+        method to create the file and send it
+        this method takes 3 variables the toEmail (who this email will be sent to?)
+        the fromEmail (who will be sending this email?
+        exchangeServer (the smtp receive connector will be used)
+        */
         public void getLogFile(string toEmail, string fromEmail, string exchangeServer)
         {
-            //start by checking if the templync directory exist or not if not it will create it
+            //start by checking if logging is enabled by checking if the Tracing foler actually exist
+            //if not found it gives an error, if found then check templync directory exist or not if not it will create it
             //if it exist then it will check if its empty or not, if not it will delete existing files
 
             //check if logging is enabled
                 if (Directory.Exists(_logLocation) == true)
                 {
-                    //if directory exist
+                    //if tempSkype4b folder directory exist
                     if (Directory.Exists("C:\\tempSkype4b\\logs") == true)
                     {
                         //check if old log file exist and clean it up
                         if (File.Exists("c:\\tempSkype4b\\Skype4b_logs.zip") == true)
                         {
-                            //delete the file ans use Task to wait for the deletion to finish before start copying
+                            //delete the file and use Task to wait for the deletion to finish before start copying
                             Task DeleteFile = Task.Factory.StartNew(() => File.Delete(_zippedLogs));
                             DeleteFile.Wait();
-                            //start copy the new log file to the templync folder and zip it
+                            //start copy the new log file to the tempSkype4b folder and zip it
                             CopyLogFile();
 
 
                         }
-                        //if the templync folder was empty then start copying and zipping
+                        //if the tempSkype4b folder was empty then start copying and zipping
                         else
                         {
                             //copy the log file and zip it
@@ -71,10 +77,10 @@ namespace SLL
             else
 
             { 
-                //if no folder exist then logging is disabled and return an error
+                //if no folder Tracing exist then logging is disabled and return an error
                 MessageBox.Show("Lync Logging is Not Enabled.\nPlease enable Logging under Skype for Business client options\nand restart your Lync client", "Error");
             }
-            //Part to send the logs as email
+            //Part to send the logs as an email
             
             //compose the email
                 MailMessage _email = new MailMessage(
@@ -85,7 +91,6 @@ namespace SLL
                 //attach the log file
                 Attachment data = new Attachment(attachment);
                 _email.Attachments.Add(data);
-                //NetworkCredential userCredentials = new NetworkCredential(_username, _password);
                 //setting up the Exchange server
 
                 SmtpClient _mailClient = new SmtpClient();
@@ -104,7 +109,7 @@ namespace SLL
                 }
 
         }
-        //method to do the copying
+        //Helper Method i guess to do the copying
         private void CopyLogFile()
         {
             foreach (string file in _getLogFiles)
